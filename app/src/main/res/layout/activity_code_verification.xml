@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_height="match_parent"
+    tools:context=".CodeVerification">
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_marginTop="10dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/logo_eap" />
+    <TextView
+        android:id="@+id/phoneLble"
+        android:text="Επαλήθευση +30 69XXXXXXXX"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold|normal"
+        android:textColor="#820A97"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="Εισάγεται τον κωδικό σας για επαλήθευση του τηλεφώνου"
+        android:textAlignment="center"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <androidx.cardview.widget.CardView
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="15dp"
+            android:background="@color/white"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <com.mukesh.OtpView
+                android:id="@+id/otp_view"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:inputType="number"
+                android:itemBackground="#DCD7D7"
+                android:focusableInTouchMode="true"
+                app:itemCount="6"
+                app:lineColor="@color/purple_500"
+                app:viewType="line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/continue02Btn"
+                android:text="CONTINUE"
+                android:textStyle="bold|normal"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="#9F24B5"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

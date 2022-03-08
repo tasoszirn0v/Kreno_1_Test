@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "594989089058",
+    "project_id": "kreno-1-test",
+    "storage_bucket": "kreno-1-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594989089058:android:e6c3ade07cb74e4fa7a57b",
+        "android_client_info": {
+          "package_name": "com.example.kreno_1_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594989089058-u7sp0h34pmv95lldkbfpq4cqjem4n9s0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCasUryDotkoQFbkuyYwkFk9k0MkidiSL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594989089058-u7sp0h34pmv95lldkbfpq4cqjem4n9s0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

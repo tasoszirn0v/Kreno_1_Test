@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.kreno_1_test.databinding.ActivityAuthenticateBinding
 import com.google.firebase.auth.FirebaseAuth
 
+
 class Authenticate : AppCompatActivity() {
 
     var binding : ActivityAuthenticateBinding? = null
@@ -24,14 +25,18 @@ class Authenticate : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
         supportActionBar?.hide()
 
         binding!!.editNumber.requestFocus()
         binding!!.continueBtn.setOnClickListener {
-            val intent = Intent(this@Authenticate, CodeVerification::class.java)
-            intent.putExtra("phoneNumber",binding!!.editNumber.text.toString())
-            startActivity(intent)
+
+
+                val intent = Intent(this@Authenticate, CodeVerification::class.java)
+                intent.putExtra("phoneNumber",binding!!.editNumber.text.toString())
+                startActivity(intent)
 
         }
     }
+
 }

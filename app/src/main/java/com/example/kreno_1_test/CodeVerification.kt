@@ -22,6 +22,7 @@ class CodeVerification : AppCompatActivity() {
     var dialog: ProgressDialog? = null
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCodeVerificationBinding.inflate(layoutInflater)
@@ -68,8 +69,8 @@ class CodeVerification : AppCompatActivity() {
             }).build()
         PhoneAuthProvider.verifyPhoneNumber(options)
 
-        binding!!.otpView.setOtpCompletionListener { code ->
-            val credential = PhoneAuthProvider.getCredential(verificationId!!, code)
+        binding!!.otpView.setOtpCompletionListener { otp ->
+            val credential = PhoneAuthProvider.getCredential(verificationId!!, otp)
             auth!!.signInWithCredential(credential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

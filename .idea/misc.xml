@@ -6,6 +6,7 @@
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/drawable/bottom_shape.xml" value="0.25" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/drawable/etd_background.xml" value="0.196" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/drawable/ic_e2ee_lock.xml" value="0.2065" />
+        <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/drawable/ic_qr_code.xml" value="0.199" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/drawable/message_text_backround.xml" value="0.196" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/drawable/receive_drwbl.xml" value="0.3395" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/drawable/send_drwbl.xml" value="0.3395" />
@@ -13,11 +14,14 @@
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_chat.xml" value="0.25" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_code_verification.xml" value="0.2832418742085268" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_e2ee.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_krypto.xml" value="0.25" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_log_in.xml" value="0.33" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_setup_profile.xml" value="0.25" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_sign_up.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/activity_trust_verify.xml" value="0.24925181701581872" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/delete_layout.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/fragment_trust.xml" value="0.24925181701581872" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/item_profile.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/push_notification.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Utente/Kreno_1_Test/app/src/main/res/layout/receive.xml" value="0.3009833262077811" />

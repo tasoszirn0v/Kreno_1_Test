@@ -5,11 +5,9 @@
     tools:ignore="ExtraText">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-    <!--
-    for push notification (FCM)
-    -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" /> <!-- for push notification (FCM) -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -19,6 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kreno_1_Test">
+        <activity
+            android:name=".TrustVerify"
+            android:exported="false" />
         <!--
      Set custom default icon. This is used when no icon is set for incoming notification messages.
      See README(https://goo.gl/l4GJaQ) for more.
@@ -36,28 +37,32 @@
 
         <activity
             android:name=".Chat"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".SetupProfile" />
         <activity android:name=".CodeVerification" />
-        <activity android:name=".Authenticate"
+        <activity
+            android:name=".Authenticate"
+            android:exported="true" />
+        <activity
+            android:name=".Krypto"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"   />
-        <service android:name=".MyFirebaseMessagingService"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <service
+            android:name=".MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

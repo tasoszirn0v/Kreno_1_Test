@@ -1,12 +1,15 @@
-package com.example.kreno_1_test
+﻿package com.example.kreno_1_test
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -20,8 +23,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
-
+const val testKey1: String = "Xp2s5v8y/B?E(H+MbQeThWmYq3t6w9z\$"
+const val ivTest: String = "E8+7YvHsvM5uD3eu"
 class Chat : AppCompatActivity() {
 
     var binding :ActivityChatBinding? = null
@@ -36,130 +43,189 @@ class Chat : AppCompatActivity() {
     var receiverUid :String? = null
 
 
+
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
         setSupportActionBar(binding!!.toolbar)
+
+
+
         database = FirebaseDatabase.getInstance()
         storage = FirebaseStorage.getInstance()
         dialog = ProgressDialog(this@Chat)
         dialog!!.setMessage("Uploading image...")
         dialog!!.setCancelable(false)
         messages = ArrayList<Message>()
+
+
+
+
+        fun encrypt(strToEncrypt: String): ByteArray {
+            val keySpec = SecretKeySpec(testKey1.toByteArray(), "AES")
+            val iv = IvParameterSpec(ivTest.toByteArray())
+            val plainText = strToEncrypt.toByteArray(Charsets.UTF_8)
+            val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv)
+            return cipher.doFinal(plainText)
+        }
+
+        fun decrypt(dataToDecrypt: ByteArray): ByteArray {
+            val iv = IvParameterSpec(ivTest.toByteArray())
+            val keySpec = SecretKeySpec(testKey1.toByteArray(), "AES")
+            val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, iv)
+            return cipher.doFinal(dataToDecrypt)
+        }
+
+
+
+
+
+
+
         val name = intent.getStringExtra("name")
         val profile = intent.getStringExtra("image")
         binding!!.name.text = name
+
         Glide.with(this@Chat).load(profile)
             .placeholder(R.drawable.avatar)
             .into(binding!!.profile01)
         binding!!.imageView.setOnClickListener(View.OnClickListener {finish()})
-            receiverUid = intent.getStringExtra("uid")
-            senderUid = FirebaseAuth.getInstance().uid
-            database!!.reference.child("presence").child(receiverUid!!)
-                .addValueEventListener(object :ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()){
-                            val status = snapshot.getValue(String::class.java)
-                            if (!status!!.isEmpty()){
-                                if (status == "offline"){
-                                    binding!!.status.visibility = View.GONE
+        receiverUid = intent.getStringExtra("uid")
+        senderUid = FirebaseAuth.getInstance().uid
+        database!!.reference.child("presence").child(receiverUid!!)
+            .addValueEventListener(object :ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+                        val status = snapshot.getValue(String::class.java)
+                        if (!status!!.isEmpty()){
+                            if (status == "offline"){
+                                binding!!.status.visibility = View.GONE
                             }
-                                else {
-                                    binding!!.status.text = status
-                                    binding!!.status.visibility = View.VISIBLE
-                                }
+                            else {
+                                binding!!.status.text = status
+                                binding!!.status.visibility = View.VISIBLE
                             }
                         }
-
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                }
 
-                })
+                override fun onCancelled(error: DatabaseError) {}
 
-            senderRoom = senderUid + receiverUid
-            receiverRoom = receiverUid + senderUid
-            adapter = MessageAdapter(this@Chat, messages, senderRoom!!, receiverRoom!!)
+            })
 
-            binding!!.chatRecyclerView.layoutManager = LinearLayoutManager(this@Chat)
-            binding!!.chatRecyclerView.adapter = adapter
-            database!!.reference.child("chats")
-                .child(senderRoom!!)
+        senderRoom = senderUid + receiverUid
+        receiverRoom = receiverUid + senderUid
+        adapter = MessageAdapter(this@Chat, messages, senderRoom!!, receiverRoom!!)
+
+        binding!!.chatRecyclerView.layoutManager = LinearLayoutManager(this@Chat)
+        binding!!.chatRecyclerView.adapter = adapter
+        database!!.reference.child("chats")
+            .child(senderRoom!!)
+            .child("messages")
+            .addValueEventListener(object : ValueEventListener{
+                @RequiresApi(Build.VERSION_CODES.O)
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    messages!!.clear()
+                    for (snapshot1 in snapshot.children){
+                        val message :Message? = snapshot1.getValue(Message::class.java)
+                        //here will be decrypted the message
+                        val sth1: ByteArray = Base64.getDecoder().decode(message!!.message)
+                        val test1 = decrypt(sth1)
+                        val result1 = String(test1, Charsets.UTF_8)
+                        val message1 = Message(result1, message.senderId, message.timeStamp)
+                        message1.messageId = snapshot1.key
+                        //message!!.messageId = snapshot1.key
+                        messages!!.add(message1)
+
+
+
+                    }
+                    adapter!!.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
+        binding!!.sentButton.setOnClickListener (View.OnClickListener {
+
+            val messageTxt:String = binding!!.messageBox.text.toString()
+            // here will be encrypted the message
+            val sth = encrypt(messageTxt)
+            val test = Base64.getEncoder().encodeToString(sth)
+            val date = Date()
+            //messageTxt
+            val message = Message(test, senderUid, date.time)
+
+
+            binding!!.messageBox.setText("")
+            val randomKey = database!!.reference.push().key
+            val lastMsgObj = HashMap<String, Any>()
+            lastMsgObj["lastMsg"] = message.message!!
+            lastMsgObj["lastMsgTime"] = date.time
+
+            database!!.reference.child("chats").child(senderRoom!!)
+                .updateChildren(lastMsgObj)
+            database!!.reference.child("chats").child(receiverRoom!!)
+                .updateChildren(lastMsgObj)
+            database!!.reference.child("chats").child(senderRoom!!)
                 .child("messages")
-                .addValueEventListener(object : ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        messages!!.clear()
-                        for (snapshot1 in snapshot.children){
-                            val message :Message? = snapshot1.getValue(Message::class.java)
-                            message!!.messageId = snapshot1.key
-                            messages!!.add(message)
-                        }
-                        adapter!!.notifyDataSetChanged()
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {}
-                })
-            binding!!.sentButton.setOnClickListener (View.OnClickListener {
-
-                val messageTxt:String = binding!!.messageBox.text.toString()
-                val date = Date()
-                val message = Message(messageTxt, senderUid, date.time)
-
-                binding!!.messageBox.setText("")
-                val randomKey = database!!.reference.push().key
-                val lastMsgObj = HashMap<String, Any>()
-                lastMsgObj["lastMsg"] = message.message!!
-                lastMsgObj["lastMsgTime"] = date.time
-
-                database!!.reference.child("chats").child(senderRoom!!)
-                    .updateChildren(lastMsgObj)
-                database!!.reference.child("chats").child(receiverRoom!!)
-                    .updateChildren(lastMsgObj)
-                database!!.reference.child("chats").child(senderRoom!!)
-                    .child("messages")
-                    .child(randomKey!!)
-                    .setValue(message).addOnSuccessListener {
-                        database!!.reference.child("chats")
-                            .child(receiverRoom!!)
-                            .child("messages")
-                            .child(randomKey)
-                            .setValue(message)
-                            .addOnSuccessListener {  }
-                    }
-
-            })
-            binding!!.attach.setOnClickListener (View.OnClickListener{
-                val intent = Intent()
-                intent.action = Intent.ACTION_GET_CONTENT
-                intent.type = "image/*"
-                startActivityForResult(intent, 25)
-            })
-
-            val handler = Handler()
-            binding!!.messageBox.addTextChangedListener(object :TextWatcher{
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-                override fun afterTextChanged(s: Editable?) {
-                    database!!.reference.child("presence")
-                        .child(senderUid!!)
-                        .setValue("typing...")
-                    handler.removeCallbacksAndMessages(null)
-                    handler.postDelayed(userStoppedTyping, 1000)
-                }
-                var userStoppedTyping = Runnable{
-                    database!!.reference.child("presence")
-                        .child(senderUid!!)
-                        .setValue("Online")
+                .child(randomKey!!)
+                .setValue(message).addOnSuccessListener {
+                    database!!.reference.child("chats")
+                        .child(receiverRoom!!)
+                        .child("messages")
+                        .child(randomKey)
+                        .setValue(message)
+                        .addOnSuccessListener {  }
                 }
 
-            })
-            supportActionBar?.setDisplayShowTitleEnabled(false)
+        })
+        binding!!.attach.setOnClickListener (View.OnClickListener{
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "image/*"
+            startActivityForResult(intent, 25)
+        })
+
+        val handler = Handler()
+        binding!!.messageBox.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                database!!.reference.child("presence")
+                    .child(senderUid!!)
+                    .setValue("typing...")
+                handler.removeCallbacksAndMessages(null)
+                handler.postDelayed(userStoppedTyping, 1000)
+            }
+            var userStoppedTyping = Runnable{
+                database!!.reference.child("presence")
+                    .child(senderUid!!)
+                    .setValue("Online")
+            }
+
+        })
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
+
+
+
+        binding!!.setTrust.text = "Επαλήθευση του κωδικού ασφαλείας του χρήστη $name"
+        binding!!.setTrust.setOnClickListener {
+
+            val intent2 = Intent(this@Chat, TrustVerify::class.java)
+            intent2.putExtra("receiverUid", receiverUid)
+            startActivity(intent2)
+
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

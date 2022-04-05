@@ -3,10 +3,12 @@ package com.example.kreno_1_test
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kreno_1_test.adapter.UserAdapter
@@ -23,13 +25,17 @@ class MainActivity : AppCompatActivity() {
     var binding :ActivityMainBinding? =null
     var database :FirebaseDatabase? = null
     var users : ArrayList<User>? = null
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
     var usersAdapter : UserAdapter? = null
     var dialog : ProgressDialog? = null
     var user : User? = null
 
 
 
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -69,8 +75,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {}
 
-        })
 
+
+        })
 
 
     }
@@ -89,6 +96,8 @@ class MainActivity : AppCompatActivity() {
             .child(currentId!!).setValue("Offline")
     }
 
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -100,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             // code for logout
 
             auth.signOut()
-            val intent = Intent(this@MainActivity, Authenticate::class.java)
+            val intent = Intent(this@MainActivity, Krypto::class.java)
 
             startActivity(intent)
             finish()

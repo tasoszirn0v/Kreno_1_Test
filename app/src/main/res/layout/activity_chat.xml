@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Chat">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,6 +15,7 @@
         android:background="@color/purple_200"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,7 +30,8 @@
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_back"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                 />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile01"
@@ -69,6 +72,7 @@
             </LinearLayout>
         </LinearLayout>
 
+
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -83,7 +87,24 @@
             android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+
+
+        <TextView
+            android:id="@+id/set_Trust"
+            android:clickable="true"
+            android:layout_marginTop="350dp"
+            android:text="Επαλήθευσε τον κωδικό ασφαλείας με τον χρήστη XXXX"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textStyle="italic|bold"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:focusable="true" />
     </LinearLayout>
+
 
 
     <LinearLayout
@@ -105,7 +126,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
             <LinearLayout
 
@@ -166,8 +187,11 @@
             app:tint="@color/white"
             android:src="@drawable/logo_send"
             android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp"
+            />
         
 
     </LinearLayout>
+
+
 </RelativeLayout>

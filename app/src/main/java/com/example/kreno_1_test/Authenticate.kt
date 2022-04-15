@@ -20,7 +20,7 @@ class Authenticate : AppCompatActivity() {
         setContentView(binding!!.root)
 
         auth = FirebaseAuth.getInstance()
-        if (auth!!.currentUser != null){
+        if (auth!!.currentUser!= null){
             val intent = Intent(this@Authenticate, MainActivity::class.java)
             startActivity(intent)
             finish()

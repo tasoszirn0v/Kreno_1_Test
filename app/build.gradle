@@ -127,7 +127,10 @@ dependencies {
 
     implementation 'com.google.crypto.tink:tink-android:1.6.1'
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1-native-mt"
+
+    implementation 'com.madgag.spongycastle:prov:1.58.0.0'
+    implementation 'com.madgag.spongycastle:pkix:1.54.0.0'
 
 
 

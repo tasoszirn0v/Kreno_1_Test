@@ -295,37 +295,7 @@
             android:textStyle="bold|normal" />
 
     </LinearLayout>
-    <TextView
-        android:id="@+id/test"
-        android:gravity="center"
-        android:padding="5dp"
-        android:textSize="14sp"
-        android:textStyle="bold|normal"
-        android:background="#7FDA83"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/test1"
-        android:gravity="center"
-        android:padding="5dp"
-        android:textSize="14sp"
-        android:textStyle="bold|normal"
-        android:background="#F4B9B5"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <ImageView
-        android:id="@+id/keysBtn"
-        android:src="@drawable/ic_key"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-         />
+
     <ImageView
         android:id="@+id/keysBtn"
         android:src="@drawable/ic_key"
